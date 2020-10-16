@@ -135,7 +135,7 @@ sub worker {
 		chomp $seq;
 		$seq =~ s/\s+//;
 		print localtime() ." CPU".threads -> self() -> tid().": running on $seq\n";
-		`timeout $timeout ${genometools}gt suffixerator -db $seq -indexname $seq -tis -suf -lcp -des -ssp -sds -dna -mirrored 2>/dev/null`;
+		`timeout $timeout ${genometools}gt suffixerator -db $seq -indexname $seq -tis -suf -lcp -des -ssp -sds -dna 2>/dev/null`;
 		`timeout $timeout ${genometools}gt ltrharvest -index $seq -minlenltr 100 -maxlenltr 7000 -mintsd 4 -maxtsd 6 -motif TGCA -motifmis 1 -similar 85 -vic 10 -seed 20 -seqids yes  > $seq.harvest.scn 2>/dev/null`;
 		`rm $seq.des $seq.esq $seq.lcp $seq.llv $seq.md5 $seq.prj $seq.sds $seq.ssp $seq.suf 2>/dev/null`; 
 		# if ($? ne 0 and $try1 ne 0){
@@ -233,5 +233,5 @@ foreach my $seq (<List>){
 close List;
 close Scn;
 close GFF;
-#`rm -rf ./$seq_file.harvest` if $verbose eq 0;
+`rm -rf ./$seq_file.harvest` if $verbose eq 0;
 print localtime() ." Job finished! Check out $seq_file.harvest.combine.scn\n";
